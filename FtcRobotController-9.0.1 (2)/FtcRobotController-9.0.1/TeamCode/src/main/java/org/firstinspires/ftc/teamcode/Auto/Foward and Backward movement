@@ -23,15 +23,44 @@ import java.util.List;
 
 @Autonomous (name = "Straight Back And Forth", group = "Autonomous Pathing Tuning")
 public class StraightBackAndForth extends OpMode {
-private Telemetry telemetryA;
+  private Telemetry telemetryA;
 
-public static double DISTANCE = 40;
+  public static double DISTANCE = 40;
 
-private boolean forward = true;
+  private boolean forward = true;
 
-private Follower follower;
+  private Follower follower;
 
-private Path forwards;
+  private Path forwards;
 
-private Path backwards
+  private Path backwards;
+
+    @Override
+    public void init() {
+        follower = new Follower(hardwareMap);
+        forwards = new Path(new BezierLine(new Point(0,0,Point.CARTESIAN),new Point(Distance, 0, point.CARTESIAN)));
+        forwards, setConstantHeadingInterpolation(0);
+        backwards = new Path(new BezierLine(new Point(Distance,0, Point.CARTESIAN), new Point(0,0,Point.CARTESIAN)));
+        backwards.setConstantHeadingInterpolation(0);
+
+        follower.followPath(forwards);
+
+        telemetryA = new MultitudeTelemetry(this,telemetry, FtcDashboard.getInstance().getTelemetry());
+        telemetryA.addline(+DISTANCE + 1 + 1);
+        telemetryA.update();
+    }
+    public void loop() {
+        follower.update();
+        if(!follower,isBusy()){
+            if(forward){
+                forward = false;
+                follower.followPath(backwards);
+            }else{
+                forward = true;
+                follower.followPath(forwards);
+            }
+        }
+        telemetryA.addData("going forward", forward);
+        follower. telemetryDebug(telemetryA);
+    }
 }
