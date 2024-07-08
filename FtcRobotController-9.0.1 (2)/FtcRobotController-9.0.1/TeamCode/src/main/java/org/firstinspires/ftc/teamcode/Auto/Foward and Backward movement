@@ -22,3 +22,16 @@ import java.util.List;
 @Config
 
 @Autonomous (name = "Straight Back And Forth", group = "Autonomous Pathing Tuning")
+public class StraightBackAndForth extends OpMode {
+private Telemetry telemetryA;
+
+public static double DISTANCE = 40;
+
+private boolean forward = true;
+
+private Follower follower;
+
+private Path forwards;
+
+private Path backwards
+}
